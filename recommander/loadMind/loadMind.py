@@ -18,8 +18,15 @@ indir = "./test_workdir/data/in"
 MINDsmall_train="https://mind201910small.blob.core.windows.net/release/MINDsmall_train.zip"
 MINDsmall_dev="https://mind201910small.blob.core.windows.net/release/MINDsmall_dev.zip"
 #wget.download(MINDsmall_train, bar=bar_progress)
+def bar_progress(current, total, width=80):
+      progress_message = "Downloading: %d%% [%d / %d] bytes" % (current / total * 100, current, total)
+  # Don't use print() as it will print in new line every time.
+  sys.stdout.write("\r" + progress_message)
+  sys.stdout.flush()
 
 def unzip(name):
+    if not os.path.isfile(f"{name}.zip"):
+        wget.download(f"https://mind201910small.blob.core.windows.net/release/{name}.zip",f"{name}.zip")
     os.mkdir(f"./{name}")
     with zipfile.ZipFile(f"{name}.zip", 'r') as zip_ref:
         zip_ref.extractall(f"./{name}")
@@ -72,7 +79,7 @@ def spam_posts(news,pickledir,start_ind=0,save_batch=1000):
             s=s.replace('\'',"\\'")
             if len(s)>500:
                 s=s[:500]
-            p=subprocess.Popen(f"desmos tx posts create 4e188d9c17150037d5199bbdb91ae1eb2a78a15aca04cb35530cccb81494b36e \"{s}\" --chain-id testchain -y --from jack",shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p=subprocess.Popen(f"desmos tx posts create 4e188d9c17150037d5199bbdb91ae1eb2a78a15aca04cb35530cccb81494b36e \"{s}\" --chain-id mindsmall -y --from jack",shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             p.wait(10)
             stdout, stderr = p.communicate()
             out = stdout.decode('utf-8')
