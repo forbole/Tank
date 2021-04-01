@@ -1,0 +1,22 @@
+{
+    "keywords":{
+        "enable":bool,
+        "degree_depth":int,
+        "jaccard_simularity_thereshold":int
+    },
+    "math_distance":{
+        "enable":bool,
+        "thereshold:int
+    },
+    "location":{
+        "enable":bool,
+        "diameter":5
+    },
+    "date":{
+        "enable":bool,
+    },
+    "general":{
+        "chain":url,
+        "num_of_posts":int
+    }
+}

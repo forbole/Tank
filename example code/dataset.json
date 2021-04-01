@@ -1,0 +1,136 @@
+Dataset {
+  client: Dataset {
+    address: Address {
+      _bytes: [Uint8Array],
+      _hex: {data internal address}
+    },
+    gateway: Gateway {
+      url: 'https://parcel-sdk.oasiscloud.io/oasis',
+      apiToken: 'unused api token',
+      headers: [Map],
+      subscriptionId: 0,
+      inner: [HttpGateway],
+      keyStore: [KeyStore],
+      log: [EventEmitter],
+      subscribe: [Function (anonymous)]
+    }
+  },
+  pubState: PublicState {
+    creator: Address {
+      _bytes: [Uint8Array],
+      _hex: {creator server hex address}
+    },
+    owner: Address {
+      _bytes: [Uint8Array],
+      _hex: {data owner hex address}
+    },
+    metadata: Metadata {
+      title: {Data title},
+      dataUrl: {Internal data url},
+      size: 50n,
+      metadataUrl: {external Metadata url},
+      rootHash: Uint8Array(0) []
+    },
+    active: true,
+    policy: Address {
+      _bytes: [Uint8Array],
+      _hex: {policy hex address}
+    }
+  },
+  config: Config {
+    params: {
+      gatewayUrl: undefined,
+      apiAccessToken: undefined,
+      apiTokenSigner: [Object],
+      dispatcherAddress: undefined,
+      storageBackends: [Object]
+    },
+    storageBackends: { parcel: [ParcelStorage], local: LocalStorage {} },
+    log: EventEmitter {
+      levels: [Object],
+      silent: [Function: noop],
+      trace: [Function: noop],
+      debug: [Function: noop],
+      info: [Function: noop],
+      warn: [Function: noop],
+      error: [Function: noop],
+      fatal: [Function: noop],
+      [Symbol(pino.useOnlyCustomLevels)]: false,
+      [Symbol(pino.stream)]: [SonicBoom],
+      [Symbol(pino.time)]: [Function: isoTime],
+      [Symbol(pino.timeSliceIndex)]: 8,
+      [Symbol(pino.stringify)]: [Function: stringify],
+      [Symbol(pino.stringifiers)]: {},
+      [Symbol(pino.end)]: '}\n',
+      [Symbol(pino.formatOpts)]: [Object],
+      [Symbol(pino.messageKey)]: 'msg',
+      [Symbol(pino.nestedKey)]: null,
+      [Symbol(pino.serializers)]: [Object],
+      [Symbol(pino.mixin)]: [Function: mixin],
+      [Symbol(pino.chindings)]: ',"pid":78817,"hostname":"ABCdeMacBook-Pro.local","name":"parcel-sdk"',
+      [Symbol(pino.formatters)]: [Object],
+      [Symbol(pino.hooks)]: [Object],
+      [Symbol(pino.lsCache)]: [Object],
+      [Symbol(pino.levelVal)]: Infinity
+    },
+    tokenProvider: RenewingTokenProvider {
+      tokenEndpoint: 'https://auth.oasiscloud.io/oauth/token',
+      makeRefreshRequestParams: [Function: makeRefreshRequestParams],
+      handleRefreshResponse: [Function: fromResponse],
+      currentToken: [Token]
+    },
+    gatewayUrl: 'https://parcel-sdk.oasiscloud.io',
+    indexerUrl: 'https://parcel-sdk.oasiscloud.io/api/state',
+    oasisGateway: Gateway {
+      url: 'https://parcel-sdk.oasiscloud.io/oasis',
+      apiToken: 'unused api token',
+      headers: [Map],
+      subscriptionId: 0,
+      inner: [HttpGateway],
+      keyStore: [KeyStore],
+      log: [EventEmitter],
+      subscribe: [Function (anonymous)]
+    },
+    storageConfig: {
+      uploadBackend: 'parcel',
+      s3Params: undefined,
+      gcpParams: undefined,
+      localStorageParams: {}
+    },
+    defaultUploadBackend: ParcelStorage {
+      tokenProvider: [RenewingTokenProvider],
+      apiEndpoint: 'https://parcel-sdk.oasiscloud.io/storage'
+    },
+    dispatcherAddress: Address {
+      _bytes: [Uint8Array],
+      _hex: {internal identity address hex 0x...}
+    },
+    connectedIdentity: Promise { [Identity] }
+  },
+  creationTimestamp: {timestamp},
+  deactivationTimestamp:  {timestamp},
+  address: Address {
+    _bytes: Uint8Array(20) [],
+    _hex: {internal identity address hex 0x...}
+  },
+  metadata: Metadata {
+    title: {dataset title},
+    dataUrl: 'parcel://4a2b3805-cab1-4a08-aee9-c47a9e5568c5',
+    size: 50n,
+    metadataUrl: 'http://s3-us-west-2.amazonaws.com/my_first_metadata.json',
+    rootHash: Uint8Array(0) []
+  },
+  creator: Address {
+    _bytes:Uint8Array(20) [],
+    _hex: {internal server creator identity hex address 0x...}
+  },
+  owner: Address {
+    _bytes: Uint8Array(20) [],
+    _hex: {internal client dataset owner identity hex address 0x...}
+  },
+  active: true,
+  policy: Address {
+    _bytes: Uint8Array(20) [],
+    _hex: {internal policy hex address 0x...}
+  }
+}
