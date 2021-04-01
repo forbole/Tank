@@ -5,7 +5,7 @@ echo "===> Deleting previous data"
 rm -r -f $HOME/.desmos
 
 echo "===> Initializing chain"
-desmos init testchain --chain-id mindsmall
+desmos init testchain --chain-id testchain
 
 echo "===> Editing genesis.json"
 sed -i 's/stake/udaric/g' $HOME/.desmos/config/genesis.json
@@ -16,8 +16,9 @@ echo "===> Creating genesis accounts"
 desmos add-genesis-account jack 100000000000000000000udaric
 desmos add-genesis-account desmos16f9wz7yg44pjfhxyn22kycs0qjy778ng877usl 10000000udaric
 
+
 echo "===> Collecting genesis trasanctions"
-desmos gentx jack 1000000000udaric --chain-id mindsmall
+desmos gentx jack 1000000000udaric --chain-id testchain
 desmos collect-gentxs
 
 echo "===> Starting chain"

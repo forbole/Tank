@@ -79,7 +79,7 @@ def spam_posts(news,pickledir,start_ind=0,save_batch=1000):
             s=s.replace('\'',"\\'")
             if len(s)>500:
                 s=s[:500]
-            p=subprocess.Popen(f"desmos tx posts create 4e188d9c17150037d5199bbdb91ae1eb2a78a15aca04cb35530cccb81494b36e \"{s}\" --chain-id mindsmall -y --from jack",shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p=subprocess.Popen(f"desmos tx posts create 4e188d9c17150037d5199bbdb91ae1eb2a78a15aca04cb35530cccb81494b36e \"{s}\" --chain-id testchain -y --from jack",shell=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             p.wait(10)
             stdout, stderr = p.communicate()
             out = stdout.decode('utf-8')
