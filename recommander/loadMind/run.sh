@@ -1,0 +1,1 @@
+docker run -a STDIN -a STDOUT -a STDERR -v $PWD:/parcel appleno0610/mind_spammer:0.1 python3 loadMind.py

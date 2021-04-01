@@ -1,0 +1,8 @@
+rake-nltk
+requests
+numpy
+scipy
+-U scikit-learn
+torch torchvision torchaudio
+transformers
+-U sentence-transformers

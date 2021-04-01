@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.routeguide";
+option java_outer_classname = "RouteGuideProto";
+option objc_class_prefix = "RTG";
+
+package routeguide;
+// Interface exported by the server.
+service RouteGuide {
+    rpc SaveData(Datastream) returns (msg){}
+    rpc GetRecommended(UserInfo) returns (Words){}
+}
+
+//this input the posts into the parcel server
+message Datastream{
+    string parsePhase = 1;
+    string identity = 2;
+}
+
+message msg{
+    string msg=1;
+}
+
+message UserInfo{
+    string identity = 1;
+}
+
+//the processed word
+message Words{
+    string word = 1;
+}

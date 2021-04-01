@@ -1,0 +1,23 @@
+bottleneck==1.2.1
+dask>=0.17.1
+fastparquet>=0.1.6
+ipykernel>=4.6.1
+jupyter>=1.0.0
+lightfm==1.15
+matplotlib>=2.2.2
+mock==2.0.0
+nltk>=3.4
+numpy>=1.13.3
+pandas>=0.23.4,<1.0.0
+pip>=19.2
+pytest>=3.6.4
+torch==1.8.1+cpu torchvision==0.9.1+cpu torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+seaborn>=0.8.1
+scikit-learn>=0.19.1
+scipy>=1.0.0
+scikit-surprise>=1.0.6
+swig==3.0.12
+lightgbm==2.2.1
+cornac>=1.1.2
+papermill>=2.2.0
+tqdm>=4.31.1

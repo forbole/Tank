@@ -1,0 +1,28 @@
+.Post {
+    width:auto;
+    padding: 16px;
+    text-align: left;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    margin: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.Author {
+    margin: 16px 0;
+    color: #ccc;
+}
+
+.Button{
+    width:500px;
+    background-color: rebeccapurple;
+    color: white;
+    padding: 5px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
