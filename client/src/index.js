@@ -5,12 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Router} from 'react-router'
 import { createBrowserHistory } from "history";
+import { usePromiseTracker } from "react-promise-tracker";
 
 const history = createBrowserHistory();
+
+const LoadingIndicator = props => {
+  const { promiseInProgress } = usePromiseTracker();
+  return (
+    promiseInProgress && 
+    <h1 className="loader">Hey some async call in progress ! </h1>
+ );  
+ }
 
 ReactDOM.render(
   <Router history={history}>
      <App />
+     <LoadingIndicator/>
     </Router>,
   document.getElementById('root')
 );

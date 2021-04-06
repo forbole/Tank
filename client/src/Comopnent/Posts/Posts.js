@@ -3,7 +3,7 @@ import Post from "./Post/Post"
 import jwt_decode from "jwt-decode";
 import Oidc from 'oidc-client'
 import config from '../../Container/MainPage/config.js'
-
+import { trackPromise } from 'react-promise-tracker';
 
 
 export default class Posts extends Component {
@@ -18,19 +18,20 @@ export default class Posts extends Component {
         const website="http://gentle-mountain-40311.herokuapp.com/http://lcd.morpheus.desmos.network:1317/posts"
         //let website="http://localhost:1317/posts?sort_by=created&sort_order=descending"
         //website="http://gentle-mountain-40311.herokuapp.com/"+website
-        fetch(website)
-        .then(res => res.json())
-        .then((data) => {
-            const d=data.result.slice(95).map((res)=>{
-                return {
-                    ...res,
-                    key:res.post_id
-                }
+        trackPromise(
+            fetch(website)
+            .then(res => res.json())
+            .then((data) => {
+                const d=data.result.slice(95).map((res)=>{
+                    return {
+                        ...res,
+                        key:res.post_id
+                    }
+                })
+                this.setState({ posts: d })
             })
-            this.setState({ posts: d })
-          })
-        .catch((err)=>console.log(err))
-
+            .catch((err)=>console.log(err))
+        )
 
         Oidc.Log.logger = console;
         Oidc.Log.level = Oidc.Log.DEBUG;
@@ -90,14 +91,15 @@ export default class Posts extends Component {
         };
 
         console.log(requestOptions.body)
-    
-        fetch('http://localhost:50051/upload', requestOptions)
-        .then(response => response.json())
-        .then(res=>{
-            console.log(res)
-            //append the states
-        })
-        .catch(err=>{console.log("oops",err)})
+        trackPromise(
+            fetch('http://localhost:50051/upload', requestOptions)
+            .then(response => response.json())
+            .then(res=>{
+                console.log(res)
+                //append the states
+            })
+            .catch(err=>{console.log("oops",err)})
+        )
     }
 
     CommentButtonHandler=(message)=>{
@@ -111,14 +113,15 @@ export default class Posts extends Component {
                 parsephase:message
             }),
         };
-    
-        fetch('http://localhost:50051/upload', requestOptions)
-        .then(response => response.json())
-        .then(res=>{
-            console.log(res)
-            //append the states
-        })
-        .catch(err=>{console.log("oops",err)})
+        trackPromise(
+            fetch('http://localhost:50051/upload', requestOptions)
+            .then(response => response.json())
+            .then(res=>{
+                console.log(res)
+                //append the states
+            })
+            .catch(err=>{console.log("oops",err)})
+        )
     }
 
     RecommandButtonHandler=()=>{
@@ -132,23 +135,25 @@ export default class Posts extends Component {
             }),
         };
     
-        fetch('http://localhost:50051/recommand', requestOptions)
-        .then(response => response.json())
-        .then(res=>{
-            console.log(res)
-            //append the states
-            const newPosts=res["result"]["result"]
-            const d=newPosts.map((res)=>{
-                return {
-                    ...res,
-                    key:res.post_id
-                }
+        trackPromise(
+            fetch('http://localhost:50051/recommand', requestOptions)
+            .then(response => response.json())
+            .then(res=>{
+                console.log(res)
+                //append the states
+                const newPosts=res["result"]["result"]
+                const d=newPosts.map((res)=>{
+                    return {
+                        ...res,
+                        key:res.post_id
+                    }
+                })
+                this.setState({
+                    posts:[...this.state.posts,...d]
+                })
             })
-            this.setState({
-                posts:[...this.state.posts,...d]
-            })
-        })
-        .catch(err=>{console.log("oops",err)})
+            .catch(err=>{console.log("oops",err)})
+        )
     }
     render() {
         console.log(this.state)
