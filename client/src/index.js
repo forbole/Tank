@@ -19,8 +19,8 @@ const LoadingIndicator = props => {
 
 ReactDOM.render(
   <Router history={history}>
+    <LoadingIndicator/>
      <App />
-     <LoadingIndicator/>
     </Router>,
   document.getElementById('root')
 );

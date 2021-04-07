@@ -7,7 +7,7 @@ WORKDIR /predict
 # copy the dependencies file to the working directory
 COPY requirements.txt .
 # install dependencies
-RUN pip install -r requirements.txt
+RUN pip install -r  requirements.txt
 
 # Add our python script.
 COPY extraction.py .

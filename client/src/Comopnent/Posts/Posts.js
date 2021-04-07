@@ -163,6 +163,9 @@ export default class Posts extends Component {
                 {posts}
                 <p className="Button">You are login as {this.state.userid}</p>
                 <button className="Button" onClick={this.RecommandButtonHandler}>Get More News base on Your Interest!</button>
+                <div>                
+                    <iframe title="System Feedback" src="https://docs.google.com/forms/d/e/1FAIpQLSeOs8Po_XyprFxoAmib-MHNgsEOS525TOk45JItRf7yI_jH5g/viewform?embedded=true" width="640" height="1212" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                </div>
             </div>
         )
     }

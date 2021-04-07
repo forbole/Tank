@@ -1,10 +1,11 @@
+print("importing...")
 from rake_nltk import Rake
 import requests
 import json
 import sys
 import glob
 import os
-import math_distance
+#import math_distance
 
 
 class map_to_lower:
@@ -19,18 +20,34 @@ class map_to_lower:
 user_embed_lookup=map_to_lower()
 print(user_embed_lookup.map_to_lower("0x1231231"))
 
-def walk_through_files(path, file_extension='.json'):
+def walk_through_files(path, file_extension='.txt',only_one=""):
     post={}
-    for (dirpath, dirnames, filenames) in os.walk(path):
-        dirname=os.path.basename(os.path.normpath(dirpath))
-        for filename in filenames:
-            f=open(f"{dirpath}/{filename}")
-            if filename.endswith(file_extension): 
-                if post.get(dirname)==None:
-                    post[dirname]=[[json.load(f)]]
-                else:
-                    file=json.load(f)
-                    post[dirname].append([file])
+    try:
+        for (dirpath, dirnames, filenames) in os.walk(path):
+            dirname=os.path.basename(os.path.normpath(dirpath))
+            for filename in filenames:
+                f=open(f"{dirpath}/{filename}")
+                if filename.endswith(file_extension): 
+                    if post.get(dirname)==None:
+                        p=json.load(f)
+                        post[dirname]=[p]
+                    else:
+                        file=json.load(f)
+                        post[dirname].append(file)
+                f.close()
+    except FileNotFoundError:
+        outputJson={"status":"FileNotFoundError"}
+        with open(output_path, 'w+') as outfile:
+            json.dump(outputJson, outfile)
+        exit()
+
+  # 路徑為目錄的例外處理
+    except IsADirectoryError:
+        outputJson={"status":"IsADirectoryError"}
+        with open(output_path, 'w+') as outfile:
+            json.dump(outputJson, outfile)
+        exit()
+
     return post
 
 #/parcel/data/in/<username>/<userhistory>.json
@@ -38,18 +55,17 @@ input_dir = sys.argv[1]
 #/parcel/data/out/output.json
 output_path = sys.argv[2]
 config_path = "config.json"
-user_posts=walk_through_files(sys.argv[1])
-print(user_posts)
-
-sequence_to_classify=[post['payload']['message']['message']  for post in user_posts[0]]
-recommendation_json=[]
+print("walking...")
+user_posts=walk_through_files(input_dir)
+sequence_to_classify=[post['payload']['message']['message']  for user in user_posts.keys() for post in user_posts[user] ]
 outputJson={"status":"Great"}
+print(set(sequence_to_classify))
 
 with open(config_path) as json_file:
     config = json.load(json_file)
 r = Rake()
 outputJson={"status":"Great"}
-
+recommendation_json=[]
 # Get Config
 '''
 config.json
@@ -144,23 +160,26 @@ def inlist(post_keyphases,keywords):
 # Jaccard simularity
 def jaccard_similarity(list1, list2):
     intersection = len(list(set(list1).intersection(list2)))
-    union = (len(set(list1)) + len(set(list2)) - intersection
-    if  (float(intersection) / union)>JACCARD:
+    union = (len(set(list1)) + len(set(list2))) - intersection
+    if  ((float(intersection) / float(union)) > JACCARD):
         return True
     return False
 
-for post in post_candidates:
-    if len(recommendation_json)>=NUM_POSTS-1:
-        break
+if False:
+    for post in post_candidates:
+        if len(recommendation_json)>=NUM_POSTS-1:
+            break
 
-    text=post['message']
-    r.extract_keywords_from_text(text)
-    post_keyphases=r.get_ranked_phrases()
-    if inlist(post_keyphases,keywords):
-        recommendation_json.append(post)
+        text=post['message']
+        r.extract_keywords_from_text(text)
+        post_keyphases=r.get_ranked_phrases()
+        if inlist(post_keyphases,keywords):
+            recommendation_json.append(post)
+
+        if jaccard_similarity(post_keyphases,keywords):
+            recommendation_json.append(post)
 
 #math_distance
-math_distance.getPosts(sequence_to_classify,post_candidates)
 
 
 # fill the recommendation if the recommendation is not enough

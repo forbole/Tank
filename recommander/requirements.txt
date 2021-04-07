@@ -1,8 +1,10 @@
 rake-nltk
 requests
-numpy
-scipy
--U scikit-learn
-torch torchvision torchaudio
-transformers
--U sentence-transformers
+#numpy
+#scipy
+#scikit-learn
+#torch 
+#torchvision 
+#torchaudio
+#transformers
+#sentence-transformers
