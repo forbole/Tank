@@ -14,7 +14,6 @@ const config = new Parcel.Config(configParams);
  */
 async function uploads(address, parsephase) {
   const t0 = performance.performance.now()
-  console.log(t0)
 
   const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
   const aliceIdentityAddress = Parcel.Identity.addressFromToken(
@@ -27,7 +26,7 @@ async function uploads(address, parsephase) {
   //const bobIdentityAddress = new Parcel.Address("0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1");
 
   const datasetMetadata = {
-    title: "Interested posts!",
+    title: "Interested posts!1",
     metadataUrl: 'http://s3-us-west-2.amazonaws.com/my_first_metadata.json',
   }
   const p=JSON.stringify(parsephase)
@@ -121,22 +120,19 @@ async function compute(address) {
   const bobIdentity = await Parcel.Identity.connect(bobIdentityAddress, aliceConfig);
   const bobDatasets = await bobIdentity.getOwnedDatasets();
   //const dataset = bobDatasets.pop();
-  const datasets = bobDatasets.filter(dataset => dataset.metadata.title == "What you read?");
+  const datasets = bobDatasets.filter(dataset => dataset.metadata.title == "Interested posts!1");
   
   const inputDatasets = datasets.map(dataset => (
-    { mountPath: dataset.address.hex + '.txt', address: dataset.address }
+    { mountPath: dataset.owner.hex+"/"+dataset.address.hex+'.txt', address: dataset.address }
   ))
 
   const jobRequest = {
     name: 'social-media-personality-classification',
-    dockerImage: 'appleno0610/keyword_extraction:0.1',
+    dockerImage: 'appleno0610/keyword_extraction:0.2',
     inputDatasets: inputDatasets,
     outputDatasets: [{ mountPath: 'output.json', owner: bobIdentity }],
     cmd: [
-      'python3',
-      'extraction.py',
-      '/parcel/data/in/',
-      '/parcel/data/out/output.json'
+      "python", "extraction.py" ,'/parcel/data/in/' , '/parcel/data/out/output.json'
     ]
   }
   //cannot submit job when the user is not authorised

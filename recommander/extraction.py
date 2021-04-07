@@ -7,6 +7,10 @@ import glob
 import os
 #import math_distance
 
+input_dir = sys.argv[1]
+#/parcel/data/out/output.json
+output_path = sys.argv[2]
+config_path = "config.json"
 
 class map_to_lower:
     def __init__(self):
@@ -51,10 +55,7 @@ def walk_through_files(path, file_extension='.txt',only_one=""):
     return post
 
 #/parcel/data/in/<username>/<userhistory>.json
-input_dir = sys.argv[1]
-#/parcel/data/out/output.json
-output_path = sys.argv[2]
-config_path = "config.json"
+
 print("walking...")
 user_posts=walk_through_files(input_dir)
 sequence_to_classify=[post['payload']['message']['message']  for user in user_posts.keys() for post in user_posts[user] ]
