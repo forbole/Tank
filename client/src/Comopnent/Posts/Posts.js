@@ -16,7 +16,7 @@ export default class Posts extends Component {
     
     async componentDidMount(){
         const website="http://gentle-mountain-40311.herokuapp.com/http://lcd.morpheus.desmos.network:1317/posts"
-        //let website="http://localhost:1317/posts?sort_by=created&sort_order=descending"
+        //let website="http://139.162.108.149:1317/posts?sort_by=created&sort_order=descending"
         //website="http://gentle-mountain-40311.herokuapp.com/"+website
         trackPromise(
             fetch(website)
@@ -92,7 +92,7 @@ export default class Posts extends Component {
 
         console.log(requestOptions.body)
         trackPromise(
-            fetch('http://localhost:50051/upload', requestOptions)
+            fetch('http://139.162.108.149:50051/upload', requestOptions)
             .then(response => response.json())
             .then(res=>{
                 console.log(res)
@@ -114,7 +114,7 @@ export default class Posts extends Component {
             }),
         };
         trackPromise(
-            fetch('http://localhost:50051/upload', requestOptions)
+            fetch('http://139.162.108.149:50051/upload', requestOptions)
             .then(response => response.json())
             .then(res=>{
                 console.log(res)
@@ -136,7 +136,7 @@ export default class Posts extends Component {
         };
     
         trackPromise(
-            fetch('http://localhost:50051/recommand', requestOptions)
+            fetch('http://139.162.108.149:50051/recommand', requestOptions)
             .then(response => response.json())
             .then(res=>{
                 console.log(res)

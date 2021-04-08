@@ -9,7 +9,7 @@ const config = {
     token_endpoint: AUTH_SERVER + '/oauth/token',
   },
   client_id: 'c3405436-eeb7-430e-81e3-fa997ef9e7b5',
-  redirect_uri: 'http://localhost:3000/posts',
+  redirect_uri: 'http://139.162.108.149:3000/posts',
   response_type: 'code',
   scope: 'openid',
   filterProtocolClaims: false,
