@@ -61,7 +61,7 @@ def build_object_from_message(result,s):
   }
 
 #build a dictionary of new post id and old post id
-def spam_posts(news,dataset_name,start_ind=0,save_batch=1,test=True):
+def spam_posts(news,dataset_name,start_ind=0,save_batch=1,test=False):
     pickledir=getPickleDir(dataset_name)
     pickleComplete=getPickleComplete(dataset_name)
     newsmap={}
@@ -148,8 +148,10 @@ def spam_merge_post(news,dataset_name):
 def spam_users(behaviors,newsmap):
     for index, u in tqdm(behaviors.iterrows(),total=behaviors.shape[0]):
         userid=u["user_ID"]
-        directory=(f"./{indir}/{userid}")
+        directory=(f"{indir}/{userid}")
         try:
+            if not os.path.isdir(indir):
+                os.mkdir(indir)
             if not os.path.isdir(directory):
                 os.mkdir(directory)
             if not isinstance(u["History"], str):
