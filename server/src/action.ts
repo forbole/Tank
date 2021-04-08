@@ -121,14 +121,15 @@ async function compute(address) {
   const bobDatasets = await bobIdentity.getOwnedDatasets();
   //const dataset = bobDatasets.pop();
   const datasets = bobDatasets.filter(dataset => dataset.metadata.title == "Interested posts!1");
-  
+  console.log(datasets.length)
   const inputDatasets = datasets.map(dataset => (
     { mountPath: dataset.owner.hex+"/"+dataset.address.hex+'.txt', address: dataset.address }
   ))
+  console.log(inputDatasets)
 
   const jobRequest = {
-    name: 'social-media-personality-classification',
-    dockerImage: 'appleno0610/keyword_extraction:0.2',
+    name: 'keyword_extraction',
+    dockerImage: 'appleno0610/keyword_extraction:0.22',
     inputDatasets: inputDatasets,
     outputDatasets: [{ mountPath: 'output.json', owner: bobIdentity }],
     cmd: [

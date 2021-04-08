@@ -13,6 +13,13 @@ export default function MainPage (){
 
            return (
                <div>
+                   <div>
+                   <h1>Tank Demonstration</h1>
+<h2>Social media recommendation powered by blockchains</h2>
+<p>This is a demonstration of how users can the posts interested that stored on Desmos chain base on user interests that stored on Oasis Parcel SDK.</p>
+<p>This demonstration do not require Desmos address - only thing you need is a Google account.</p>
+<p>Please complete the feedback form at the bottom after you try this out!</p>
+                   </div>
                    <Auth/>
                    <Switch>
                         <Route exact path="/" component={Dashboard}>

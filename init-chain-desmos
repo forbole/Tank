@@ -13,16 +13,16 @@ sed -i 's/"voting_period": "172800s"/"voting_period": "120s"/g' ~/.desmos/config
 sed -i 's/max_subscriptions_per_client = 5/max_subscriptions_per_client = 20/g' ~/.desmos/config/config.toml
 
 echo '===> Adding Keyring to account'
-desmos keys add jack
-desmos keys add desmos16f9wz7yg44pjfhxyn22kycs0qjy778ng877us
+desmos keys add jack --keyring-backend=test
+desmos keys add desmos16f9wz7yg44pjfhxyn22kycs0qjy778ng877us --keyring-backend=test
 
 echo "===> Creating genesis accounts"
-desmos add-genesis-account jack 100000000000000000000udaric
-desmos add-genesis-account desmos16f9wz7yg44pjfhxyn22kycs0qjy778ng877usl 10000000udaric
+desmos add-genesis-account jack 100000000000000000000udaric --keyring-backend=test
+desmos add-genesis-account desmos16f9wz7yg44pjfhxyn22kycs0qjy778ng877usl 10000000udaric --keyring-backend=test
 
 
 echo "===> Collecting genesis trasanctions"
-desmos gentx jack 1000000000udaric --chain-id testchain
+desmos gentx jack 1000000000udaric --chain-id testchain --keyring-backend=test
 desmos collect-gentxs
 
 echo "===> Starting chain"
