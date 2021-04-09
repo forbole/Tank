@@ -92,7 +92,7 @@ export default class Posts extends Component {
 
         console.log(requestOptions.body)
         trackPromise(
-            fetch('http://139.162.108.149:50051/upload', requestOptions)
+            fetch('http://localhost:50051/upload', requestOptions)
             .then(response => response.json())
             .then(res=>{
                 console.log(res)
