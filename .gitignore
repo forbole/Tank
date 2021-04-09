@@ -1,2 +1,13 @@
 recommander/loadMind/test_workdir
 recommander/test_workdir
+relation_embedding.vec
+news.tsv
+Interested posts!
+Interested posts!1
+recommander/config.json
+recommander/collaborative/config.json
+recommander/loadMind/MINDsmall_dev.zip
+recommander/loadMind/MINDsmall_dev_complete.pickle
+recommander/loadMind/MINDsmall_train_complete.pickle
+recommander/loadMind/MINDsmall_dev/behaviors.tsv
+recommander/loadMind/MINDsmall_dev/entity_embedding.vec

@@ -36,5 +36,5 @@ def itemitem(user_interest_posts,candidate_post,thereshold=0.5):
     candidate_vectors=model.encode(candidate_message)
     #for each user vector find its optimal cosine distance vector by decending order
     search=util.semantic_search(user_vectors,candidate_vectors)
-    sentence=[candidate_message[n['corpus_id']]for i in search for n in i if n['score']>thereshold]
+    sentence=[candidate_post[n['corpus_id']]for i in search for n in i if n['score']>thereshold]
     return list(set(sentence))

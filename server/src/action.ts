@@ -110,7 +110,7 @@ async function compute(address) {
   var t0 = performance.performance.now()
   const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
   const aliceIdentityAddress = Parcel.Identity.addressFromToken(
-    await aliceConfig.tokenProvider.getToken(),
+    await aliceConfig.tokenProvider.getToken()
   );
   const aliceIdentity = await Parcel.Identity.connect(aliceIdentityAddress, config);
   const dispatcher = await Parcel.Dispatcher.connect(config.dispatcherAddress, aliceIdentity, config);

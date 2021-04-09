@@ -47,7 +47,7 @@ NUM_POSTS=config['general']['num_of_posts']
 CHAIN=config['general']['chain']
 JACCARD=config['keywords']['jaccard_simularity_thereshold']
 
-# Get list of candidate posts from localhost:1415/posts (chain)
+# Get list of candidate posts from 139.162.108.149:1415/posts (chain)
 response = requests.get(CHAIN)
 if response.status_code !=200:
     print("oops")
