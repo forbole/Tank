@@ -6,6 +6,26 @@ import performance from 'perf_hooks'
 //https://steward.oasiscloud.io/apps/c9d5fe98-b4d7-4b46-850f-b7ceed7e6bed/join
 const configParams = Parcel.Config.paramsFromEnv();
 const config = new Parcel.Config(configParams);
+
+
+var JsonToArray = function(json)
+{
+	var str = JSON.stringify(json, null, 0);
+	var ret = new Uint8Array(str.length);
+	for (var i = 0; i < str.length; i++) {
+		ret[i] = str.charCodeAt(i);
+	}
+	return ret
+};
+
+var binArrayToJson = function(binArray)
+{
+	var str = "";
+	for (var i = 0; i < binArray.length; i++) {
+		str += String.fromCharCode(parseInt(binArray[i]));
+	}
+	return JSON.parse(str)
+}
 /**
  * This upload the data that user want to save to Parcel
  * @param address User identity address
@@ -30,10 +50,7 @@ async function uploads(address, parsephase) {
     metadataUrl: 'http://s3-us-west-2.amazonaws.com/my_first_metadata.json',
   }
 
-  const p = JSON.stringify(parsephase)
-  console.log(p)
-  const encoder = new TextEncoder();
-  const data = encoder.encode(p);
+  const data= JsonToArray(parsephase)
   //const data = new TextEncoder().encode('The weather will be sunny tomorrow')
   console.log('Uploading data for Bob');
   const dataset = await Parcel.Dataset.upload(
