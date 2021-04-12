@@ -10,7 +10,8 @@ const config = new Parcel.Config(configParams);
 
 var JsonToArray = function(json)
 {
-	var str = JSON.stringify(json, null, 0);
+  var str = JSON.stringify(json, null, 0);
+  console.log(str)
 	var ret = new Uint8Array(str.length);
 	for (var i = 0; i < str.length; i++) {
 		ret[i] = str.charCodeAt(i);
