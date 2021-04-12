@@ -92,7 +92,7 @@ export default class Posts extends Component {
 
         console.log(requestOptions.body)
         trackPromise(
-            fetch('http://localhost:50051/upload', requestOptions)
+            fetch('https://tank.forbole.com/backend/upload', requestOptions)
             .then(response => response.json())
             .then(res=>{
                 console.log(res)
@@ -114,7 +114,7 @@ export default class Posts extends Component {
             }),
         };
         trackPromise(
-            fetch('http://139.162.108.149:50051/upload', requestOptions)
+            fetch('https://tank.forbole.com/backend/upload', requestOptions)
             .then(response => response.json())
             .then(res=>{
                 console.log(res)
@@ -136,7 +136,7 @@ export default class Posts extends Component {
         };
     
         trackPromise(
-            fetch('http://139.162.108.149:50051/recommand', requestOptions)
+            fetch('https://tank.forbole.com/backend/recommand', requestOptions)
             .then(response => response.json())
             .then(res=>{
                 console.log(res)
