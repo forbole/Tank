@@ -47,7 +47,7 @@ async function uploads(address, parsephase) {
   //const bobIdentityAddress = new Parcel.Address("0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1");
 
   const datasetMetadata = {
-    title: "Interested posts!1",
+    title: "Desmos Posts",
     metadataUrl: 'http://s3-us-west-2.amazonaws.com/my_first_metadata.json',
   }
 
@@ -141,7 +141,7 @@ async function compute(address) {
   const bobIdentity = await Parcel.Identity.connect(bobIdentityAddress, aliceConfig);
   const bobDatasets = await bobIdentity.getOwnedDatasets();
   //const dataset = bobDatasets.pop();
-  const datasets = bobDatasets.filter(dataset => dataset.metadata.title == "Interested posts!1");
+  const datasets = bobDatasets.filter(dataset => dataset.metadata.title == "Desmos Posts");
   console.log(datasets.length)
   const inputDatasets = datasets.map(dataset => (
     { mountPath: dataset.owner.hex+"/"+dataset.address.hex+'.txt', address: dataset.address }
