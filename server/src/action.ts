@@ -304,10 +304,9 @@ async function getUserData(identity: string, type: string) {
   const bobIdentity = await Parcel.Identity.connect(bobIdentityAddress,aliceConfig);
   const bobDatasets = await bobIdentity.getOwnedDatasets();
   const dataset = bobDatasets.find(dataset =>
-                       dataset.metadata.title.includes(type)
-    && ((new Date().getTime() - dataset.creationTimestamp.getTime()) < 60 * 60 * 1000 * 2))
+                       dataset.metadata.title.includes(type))
   if (dataset == undefined) {
-    return "oops"
+    return type+"Not found"
   }
   var datasetByAlice = await Parcel.Dataset.connect(dataset.address, aliceIdentity, aliceConfig);
   const datastream = datasetByAlice.download();

@@ -155,6 +155,40 @@ export default class Posts extends Component {
             .catch(err=>{console.log("oops",err)})
         )
     }
+
+    PreComputeHandler=()=>{
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body: JSON.stringify({
+                identity:this.state.userid,
+                type:"Result of job keyword_extraction"
+            }),
+        };
+    
+        trackPromise(
+            fetch('https://tank.forbole.com/backend/get_collaborative_result', requestOptions)
+            .then(response => response.json())
+            .then(res=>{
+                console.log(res)
+                //append the states
+                const newPosts=res["result"]["result"]
+                const d=newPosts.map((res)=>{
+                    return {
+                        ...res,
+                        key:res.post_id
+                    }
+                })
+                this.setState({
+                    posts:[...this.state.posts,...d]
+                })
+            })
+            .catch(err=>{console.log("oops",err)})
+        )
+    }
+
     render() {
         console.log(this.state)
         const posts=this.state.posts.map((post)=><Post post={post} key={post.key} likeButton={this.LikeButtonHandler} commentButton={this.CommentButtonHandler}/>)
@@ -162,7 +196,8 @@ export default class Posts extends Component {
             <div>
                 {posts}
                 <p className="Button">You are login as {this.state.userid}</p>
-                <button className="Button" onClick={this.RecommandButtonHandler}>Get More News base on Your Interest!</button>
+                <button className="Button" onClick={this.RecommandButtonHandler}>Get More News base on Your Interest!(Instant compute may timeout)</button>
+                <button className="Button" onClick={this.PreComputeHandler}>Get More News base on Your Interest!(Pre-compute)</button>
                 <div>                
                     <iframe title="System Feedback" src="https://docs.google.com/forms/d/e/1FAIpQLSeOs8Po_XyprFxoAmib-MHNgsEOS525TOk45JItRf7yI_jH5g/viewform?embedded=true" width="640" height="1212" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
                 </div>
