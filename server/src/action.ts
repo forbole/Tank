@@ -308,7 +308,8 @@ async function getUserData(identity: string, type: string) {
   && ((new Date().getTime() - dataset.creationTimestamp.getTime()) < 60 * 60 * 1000 * 2))
 
   if (dataset == undefined) {
-    return type+"Not found"
+    const data = await compute(identity) 
+    return data
   }
   var datasetByAlice = await Parcel.Dataset.connect(dataset.address, aliceIdentity, aliceConfig);
   const datastream = datasetByAlice.download();
