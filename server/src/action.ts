@@ -317,7 +317,7 @@ async function getUserData(identity: string, type: string) {
   var t1 = performance.performance.now()
   console.log("Download dataset for bob take" + (t1 - t0) + " milliseconds.")
 
-  return data
+  return returndata
 
   // console.log("outer "+data)
   // return data;
