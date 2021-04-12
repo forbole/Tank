@@ -29,10 +29,11 @@ async function uploads(address, parsephase) {
     title: "Interested posts!1",
     metadataUrl: 'http://s3-us-west-2.amazonaws.com/my_first_metadata.json',
   }
-  
+
   const p = JSON.stringify(parsephase)
   console.log(p)
-  const data = new TextEncoder().encode(p)
+  const encoder = new TextEncoder();
+  const data = encoder.encode(p);
   //const data = new TextEncoder().encode('The weather will be sunny tomorrow')
   console.log('Uploading data for Bob');
   const dataset = await Parcel.Dataset.upload(
