@@ -64,6 +64,7 @@ app.get('/train-collaborative', (req, res) => {
 
 //upload
 app.post('/upload', (req, res) => {
+  console.log("Endpoint /upload is hit!")
   action.uploads(req.body.identity,req.body.parsephase)
     .then(result => {
       return res.send(
@@ -76,8 +77,8 @@ app.post('/upload', (req, res) => {
     .catch(err => {
       return res.send(
         {
-          status:err,
-          result: ""
+          status:500,
+          result: err
         }
       );
     })
