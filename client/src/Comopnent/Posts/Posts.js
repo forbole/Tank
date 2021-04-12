@@ -15,7 +15,7 @@ export default class Posts extends Component {
 
     
     async componentDidMount(){
-        const website="http://139.162.108.149:1317/posts?sort_by=created&sort_order=descending"
+        const website="https://tank.forbole.com/chain/posts?sort_by=created&sort_order=descending"
         //let website="http://139.162.108.149:1317/posts?sort_by=created&sort_order=descending"
         //website="http://gentle-mountain-40311.herokuapp.com/"+website
         trackPromise(
