@@ -150,7 +150,7 @@ async function compute(address) {
 
   const jobRequest = {
     name: 'keyword_extraction',
-    dockerImage: 'appleno0610/keyword_extraction:0.22',
+    dockerImage: 'appleno0610/keyword_extraction:0.23',
     inputDatasets: inputDatasets,
     outputDatasets: [{ mountPath: 'output.json', owner: bobIdentity }],
     cmd: [

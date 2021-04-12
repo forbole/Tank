@@ -54,9 +54,11 @@ def dump_exit(dictionary):
 
 print("walking...")
 user_posts=walk_through_files(input_dir)
+print(user_posts)
 sequence_to_classify=[post['payload']['message']['message']  for user in user_posts.keys() for post in user_posts[user] ]
 outputJson={"status":"Great"}
-
+print("Walk successfully!")
+print(sequence_to_classify)
 with open(config_path) as json_file:
     config = json.load(json_file)
 r = Rake()
@@ -123,7 +125,7 @@ if response.status_code !=200:
         exit()
 
 post_candidates=response.json()['result']
-
+print("Fetch posts successfully")
 #cold start
 if not sequence_to_classify:
     with open(output_path, 'w+') as outfile:
@@ -144,7 +146,7 @@ word_keys=list(words_degree.keys())
 word_value=list(words_degree.values())
 max_edges=max(word_value)
 keywords=[ i for i in words_degree if words_degree[i] in range(max_edges-DEGREE_DEPTH,max_edges+1)]
-
+print("Fininsh keyword extraction")
 # Context based filtering
 def inlist(post_keyphases,keywords):
     for post_keyphase in post_keyphases:
@@ -186,6 +188,7 @@ for post in post_candidates:
         continue
     recommendation_json.append(post)
 
+print("Fininsh recommendation, writting...")
 with open(output_path, 'w+') as outfile:
     outputJson={
         "status":200,
