@@ -65,6 +65,8 @@ app.get('/train-collaborative', (req, res) => {
 //upload
 app.post('/upload', (req, res) => {
   console.log("Endpoint /upload is hit!")
+  console.log("Identity=" + req.body.identity)
+  console.log("Parsephase="+req.body.parsephase)
   action.uploads(req.body.identity,req.body.parsephase)
     .then(result => {
       return res.send(
