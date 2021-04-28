@@ -11,13 +11,13 @@ const downloadLog = './log/downlod.csv'
 const computeLog = './log/compute.csv'
 
 function checkLogFileExist(path,header) {
-  fs.access("somefile", error => {
+  fs.access(path, error => {
     if (!error) {
       // The check succeeded
       console.log(path+"exist")
     } else {
       // The check failed
-      fs.write(path, header, function (err) {
+      fs.writeFile(path, header,{ flag: 'a+' }, function (err) {
         if (err) {
           console.log("Cannot write file!")
         }
