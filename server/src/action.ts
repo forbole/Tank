@@ -13,7 +13,15 @@ const apiCreds = {
   // Client ID. Replace this with your service client ID, e.g. "C92EAFfH67w4bGkVMjihvkQ"
   clientId: process.env.OASIS_CLIENT_ID!,
   // Client key
-  privateKey: process.env.OASIS_API_PRIVATE_KEY!,
+  privateKey:{
+    kty: "EC",
+    d: "gU0zm3SKbEjJ1evZ0D1b-Dt2VZgXCY_oOIvy5ktmXYk",
+    use: "sig",
+    crv: "P-256",
+    x: "4D8a3zvYLpEazIIxszCZ_RZ-bb6dhkymEjcsn6Huhn8",
+    y: "FW_BE9VeKFlHAf0xPbZZvOBnBPXMXsqk5IYg67BF7oE",
+    alg: "ES256"
+},
 } as const;
 
 var JsonToArray = function(json)
@@ -92,48 +100,6 @@ async function uploads(address, parsephase) {
   return dataset.id
 }
 
-/**
- * This function return all the history dasta that the user has been stored
- * @param identity User Identity Address
- * @param writeFile The output file 
- */
-async function download(identity = "0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1", writeFile = './docker/test_workdir/data/in/intext.txt') {
-  const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
-  const aliceIdentityAddress = Parcel.Identity.addressFromToken(
-    await aliceConfig.tokenProvider.getToken(),
-  );
-  const aliceIdentity = await Parcel.Identity.connect(aliceIdentityAddress, config);
-  //get all identity address
-  const bobIdentityAddress = new Parcel.Address(identity);
-  const bobIdentity = await Parcel.Identity.connect(bobIdentityAddress,aliceConfig);
-  const bobDatasets = await bobIdentity.getOwnedDatasets();
-  var datasets = aliceIdentity.getOwnedDatasets();
-  //const writeFile = '../docker/test_workdir/data/in';
-
-    bobDatasets.forEach(
-      async function (value) {
-        var datasetByAlice = await Parcel.Dataset.connect(value.address, aliceIdentity, aliceConfig);
-        const streamFinished = require('util').promisify(require('stream').finished);
-        try {
-          const secretDataStream = datasetByAlice.download();
-      
-          const secretDatasetWriter = secretDataStream.pipe(
-          require('fs').createWriteStream(writeFile),
-          );
-        await streamFinished(secretDatasetWriter);
-        console.log(
-          `\nDataset ${datasetByAlice.address.hex} has been downloaded to ${writeFile}`,
-        );
-        } catch (e) {
-      throw new Error(`Failed to download dataset at ${datasetByAlice.address.hex}`);
-    }
-      }
-  )
-    
-const secretDataByAlice = require('fs').readFileSync(writeFile).toString();
-  console.log(`Here's the data: ${secretDataByAlice}`);
-  return secretDataByAlice;
-}
 /* docker run \  -v $PWD/test_workdir:/predict/test \
    appleno0610/testlabel:latest \
   /usr/bin/python3 compute.py /predict/test/data/in/intext.txt /predict/test/data/in/label.txt /predict/test/data/out/out.txt /predict/test/distilbart-mnli-12-1 */
@@ -144,7 +110,7 @@ const secretDataByAlice = require('fs').readFileSync(writeFile).toString();
  * @returns output of the docker job
  */
 async function compute(address) {
-  var t0 = performance.performance.now()
+ /*  var t0 = performance.performance.now()
   const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
   const aliceIdentityAddress = Parcel.Identity.addressFromToken(
     await aliceConfig.tokenProvider.getToken()
@@ -204,12 +170,12 @@ async function compute(address) {
     console.log("Saved to computeLog")
   });
 
-  return res
+  return res */
 
 }
 
 async function getSharedDataset() {
-  const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
+/*   const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
   const aliceIdentityAddress = Parcel.Identity.addressFromToken(
     await aliceConfig.tokenProvider.getToken(),
   );
@@ -220,11 +186,11 @@ async function getSharedDataset() {
   const inputDatasets = datasets.map(dataset =>(
     { mountPath: dataset.owner.hex+"/"+dataset.address.hex+'.json', address: dataset.address }
   ))
-  return inputDatasets
+  return inputDatasets */
 }
 
 async function buildCollaborativeModel() {
-  const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
+/*   const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
   const aliceIdentityAddress = Parcel.Identity.addressFromToken(
     await aliceConfig.tokenProvider.getToken(),
   );
@@ -273,12 +239,12 @@ async function buildCollaborativeModel() {
       console.log('Job failed!',job.info);
     }
   
-  return job.status;
+  return job.status; */
 
 }
 
 async function getCollaborativeResultSingleUser(identity: string) {
-  const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
+ /*  const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
   const aliceIdentityAddress = Parcel.Identity.addressFromToken(
     await aliceConfig.tokenProvider.getToken(),
   );
@@ -307,12 +273,12 @@ async function getCollaborativeResultSingleUser(identity: string) {
   datastream.on('end', () => {
     const content = chunks.join('');
     return content
-  });
+  }); */
 }
 
 
 async function getUserData(identity: string, type: string) {
-  var t0 = performance.performance.now()
+  /* var t0 = performance.performance.now()
   const writeFile='./output.json'
   const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
   const aliceIdentityAddress = Parcel.Identity.addressFromToken(
@@ -343,7 +309,7 @@ async function getUserData(identity: string, type: string) {
     console.log("Saved to computeLog")
   });
   return returndata
-
+ */
   // console.log("outer "+data)
   // return data;
 }
