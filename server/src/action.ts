@@ -1,5 +1,4 @@
 import Parcel, { AppId, IdentityId } from "@oasislabs/parcel"
-require('dotenv').config("../.env");
 import performance from 'perf_hooks'
 import fs from 'fs'
 

@@ -1,6 +1,6 @@
 import express from "express";
-import dotenv from 'dotenv'
-dotenv.config()
+import _ from './env';
+
 import * as action from './action'
 var app = express()
 import fs from 'fs'
