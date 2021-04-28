@@ -1,7 +1,10 @@
 recommander/loadMind/test_workdir
 recommander/test_workdir
+<<<<<<< HEAD
 relation_embedding.vec
 news.tsv
+=======
+>>>>>>> grpc
 Interested posts!
 Interested posts!1
 recommander/config.json
@@ -11,5 +14,13 @@ recommander/loadMind/MINDsmall_dev_complete.pickle
 recommander/loadMind/MINDsmall_train_complete.pickle
 recommander/loadMind/MINDsmall_dev/behaviors.tsv
 recommander/loadMind/MINDsmall_dev/entity_embedding.vec
+<<<<<<< HEAD
 Interested posts!1 (1)
 Interested posts!1 (2)
+=======
+recommander/loadMind/MINDsmall_dev/news.tsv
+recommander/loadMind/MINDsmall_dev/relation_embedding.vec
+recommander/grpc/proto/lib
+recommander/grpc/proto
+*.pickle
+>>>>>>> grpc

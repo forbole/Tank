@@ -3,7 +3,36 @@ import dotenv from 'dotenv'
 dotenv.config()
 import * as action from './action'
 var app = express()
+import fs from 'fs'
 
+// logging
+const uploadLog = './log/upload.csv'
+const downloadLog = './log/downlod.csv'
+const computeLog = './log/compute.csv'
+
+function checkLogFileExist(path,header) {
+  fs.access("somefile", error => {
+    if (!error) {
+      // The check succeeded
+      console.log(path+"exist")
+    } else {
+      // The check failed
+      fs.write(path, header, function (err) {
+        if (err) {
+          console.log("Cannot write file!")
+        }
+      })
+    }
+  });
+}
+
+checkLogFileExist(uploadLog, "Upload \n")
+checkLogFileExist(downloadLog, "Download \n")
+checkLogFileExist(computeLog, "Upload,Compute,Total \n")
+
+
+
+//json stuff
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -106,3 +135,4 @@ app.post('/get_collaborative_result', (req, res) => {
       );
     })
 });
+
