@@ -1,7 +1,12 @@
 import * as Parcel from '@oasislabs/parcel-sdk';
 require('dotenv').config("../.env");
 import performance from 'perf_hooks'
+import fs from 'fs'
 
+//log files in ./log
+const uploadLog = './log/upload.csv'
+const downloadLog = './log/downlod.csv'
+const computeLog = './log/compute.csv'
 
 //https://steward.oasiscloud.io/apps/c9d5fe98-b4d7-4b46-850f-b7ceed7e6bed/join
 const configParams = Parcel.Config.paramsFromEnv();
@@ -46,7 +51,12 @@ async function uploads(address, parsephase) {
     },
   );
   var t1 = performance.performance.now()
-  console.log("Upload dataset from bob take"+ (t1 - t0) + " milliseconds.")
+  console.log("Upload dataset from bob take" + (t1 - t0) + " milliseconds.")
+  fs.appendFile(uploadLog, (t1 - t0) + "\n", function (err) {
+    if (err) throw err;
+    console.log("Saved to uploadLog")
+  });
+
   
   console.log(
     `Created dataset with address ${dataset.address} and uploaded to ${dataset.metadata.dataUrl}\n`,
@@ -123,7 +133,7 @@ async function compute(address) {
   const datasets = bobDatasets.filter(dataset => dataset.metadata.title == "Interested posts!1");
   console.log(datasets.length)
   const inputDatasets = datasets.map(dataset => (
-    { mountPath: dataset.owner.hex+"/"+dataset.address.hex+'.txt', address: dataset.address }
+    { mountPath: dataset.owner.hex + "/" + dataset.address.hex + '.txt', address: dataset.address }
   ))
   console.log(inputDatasets)
 
@@ -133,7 +143,7 @@ async function compute(address) {
     inputDatasets: inputDatasets,
     outputDatasets: [{ mountPath: 'output.json', owner: bobIdentity }],
     cmd: [
-      "python", "extraction.py" ,'/parcel/data/in/' , '/parcel/data/out/output.json'
+      "python", "extraction.py", '/parcel/data/in/', '/parcel/data/out/output.json'
     ]
   }
   //cannot submit job when the user is not authorised
@@ -155,14 +165,18 @@ async function compute(address) {
   var t2 = performance.performance.now()
   console.log(`Job ${Parcel.utils.encodeHex(jobId)} finished. It takes ${t2 - t1} milliseconds to compute and take total ${t2 - t0} milliseconds`);
 
-  let data 
+  let data
   if (job.outputs[0]) {
     const output = await Parcel.Dataset.connect(job.outputs[0].address, aliceIdentity, aliceConfig);
     const datastream = output.download();
     data = await readableToString(datastream);
   }
   const res = JSON.parse(data)
-  console.log(res)
+  fs.appendFile(computeLog,`${(t1 - t0)},${t2 - t1},${t2 - t0} \n`, function (err) {
+    if (err) throw err;
+    console.log("Saved to computeLog")
+  });
+
   return res
 
 }
@@ -286,7 +300,7 @@ async function getUserData(identity: string, type: string) {
                        dataset.metadata.title.includes(type)
     && ((new Date().getTime() - dataset.creationTimestamp.getTime()) < 60 * 60 * 1000 * 2))
   if (dataset == undefined) {
-    return "oops"
+    return "Dataset is undefineded, proberbly there is no recommendation compute in these two hour"
   }
   var datasetByAlice = await Parcel.Dataset.connect(dataset.address, aliceIdentity, aliceConfig);
   const datastream = datasetByAlice.download();
@@ -295,6 +309,10 @@ async function getUserData(identity: string, type: string) {
   var t1 = performance.performance.now()
   console.log("Download dataset for bob take" + (t1 - t0) + " milliseconds.")
 
+  fs.appendFile(downloadLog,`${(t1 - t0)} \n`, function (err) {
+    if (err) throw err;
+    console.log("Saved to computeLog")
+  });
   return data
 
   // console.log("outer "+data)
