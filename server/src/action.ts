@@ -9,22 +9,11 @@ const downloadLog = './log/downlod.csv'
 const computeLog = './log/compute.csv'
 
 //https://steward.oasiscloud.io/apps/c9d5fe98-b4d7-4b46-850f-b7ceed7e6bed/join
-const configParams = Parcel.Config.paramsFromEnv();
-const config = new Parcel.Config(configParams);
-
 const apiCreds = {
   // Client ID. Replace this with your service client ID, e.g. "C92EAFfH67w4bGkVMjihvkQ"
   clientId: process.env.OASIS_CLIENT_ID!,
   // Client key
-  privateKey: {
-    use: "sig",
-    kty: "EC",
-    crv: "P-256",
-    alg: "ES256",
-    d: "4k94sNSrlj9l_s2FaCPWpzrs8AgW7v4LQuUEUYUqbNI",
-    x: "zCEfXdGKR8mPGzfbATaOLKRDduFySrjo7qER57wXea4",
-    y: "I2BdryedcuXHPe3R9u9ZX9nBE8MbtTPmcrGr8XMpiY0",
-  },
+  privateKey: process.env.OASIS_API_PRIVATE_KEY!,
 } as const;
 
 var JsonToArray = function(json)

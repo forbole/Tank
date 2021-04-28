@@ -1,14 +1,10 @@
-const AUTH_SERVER = 'https://auth.oasiscloud.io';
+
+const PARCEL_AUTH_URL = process.env.PARCEL_AUTH_URL ?? 'https://auth.oasislabs.com';
 
 const config = {
-  authority: AUTH_SERVER,
-  metadata: {
-    issuer: AUTH_SERVER,
-    authorization_endpoint: AUTH_SERVER + '/oauth/authorize',
-    jwks_uri: AUTH_SERVER + '/oauth/keys',
-    token_endpoint: AUTH_SERVER + '/oauth/token',
-  },
-  client_id: '970356db-8f28-42a3-82b3-eae35097d058',
+  authority: PARCEL_AUTH_URL,
+  // Replace with your app's front-end client ID.
+  client_id: 'CD4EYzTZCR8EsayjM3CGNib',
   redirect_uri: 'https://tank.forbole.com/posts',
   response_type: 'code',
   scope: 'openid',
@@ -17,5 +13,9 @@ const config = {
   extraQueryParams: {
     audience: 'https://api.oasislabs.com/parcel',
   },
+  extraTokenParams: {
+    audience: 'https://api.oasislabs.com/parcel',
+  },
 };
+
 export default config
