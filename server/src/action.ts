@@ -332,7 +332,6 @@ async function readableToString(readable) {
 
 export {
   uploads,
-  download,
   compute,
   getSharedDataset,
   buildCollaborativeModel,
