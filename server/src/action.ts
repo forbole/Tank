@@ -1,4 +1,4 @@
-import * as Parcel from '@oasislabs/parcel-sdk';
+import Parcel, { AppId, IdentityId } from "@oasislabs/parcel"
 require('dotenv').config("../.env");
 import performance from 'perf_hooks'
 import fs from 'fs'
@@ -12,6 +12,20 @@ const computeLog = './log/compute.csv'
 const configParams = Parcel.Config.paramsFromEnv();
 const config = new Parcel.Config(configParams);
 
+const apiCreds = {
+  // Client ID. Replace this with your service client ID, e.g. "C92EAFfH67w4bGkVMjihvkQ"
+  clientId: process.env.OASIS_CLIENT_ID!,
+  // Client key
+  privateKey: {
+    use: "sig",
+    kty: "EC",
+    crv: "P-256",
+    alg: "ES256",
+    d: "4k94sNSrlj9l_s2FaCPWpzrs8AgW7v4LQuUEUYUqbNI",
+    x: "zCEfXdGKR8mPGzfbATaOLKRDduFySrjo7qER57wXea4",
+    y: "I2BdryedcuXHPe3R9u9ZX9nBE8MbtTPmcrGr8XMpiY0",
+  },
+} as const;
 
 var JsonToArray = function(json)
 {
@@ -41,14 +55,17 @@ var binArrayToJson = function(binArray)
 async function uploads(address, parsephase) {
   const t0 = performance.performance.now()
 
+  const parcel = new Parcel(apiCreds);
+  const aliceIdentity = await parcel.getCurrentIdentity();
+  /* 
   const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
   const aliceIdentityAddress = Parcel.Identity.addressFromToken(
     await aliceConfig.tokenProvider.getToken(),
   );
   const aliceIdentity = await Parcel.Identity.connect(aliceIdentityAddress, config);
-
+ */
   //need to get grant from steward app first
-  const bobIdentityAddress = new Parcel.Address(address);
+ /*  const bobIdentityAddress = new Parcel.Address(address); */
   //const bobIdentityAddress = new Parcel.Address("0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1");
 
   const datasetMetadata = {
@@ -56,21 +73,21 @@ async function uploads(address, parsephase) {
     metadataUrl: 'http://s3-us-west-2.amazonaws.com/my_first_metadata.json',
   }
 
-  const data= JsonToArray(parsephase)
+  const data = JsonToArray(parsephase)
+  const documentDetails = { title: 'Desmos Posts', tags: ['JSON'] };
+
   //const data = new TextEncoder().encode('The weather will be sunny tomorrow')
-  console.log('Uploading data for Bob');
-  const dataset = await Parcel.Dataset.upload(
-    data,
-    datasetMetadata,
-    // The dataset is uploaded for Bob...
-    await Parcel.Identity.connect(bobIdentityAddress, aliceConfig),
-    // ...with Alice's credentials being used to do the upload...
-    aliceConfig,
-    {
-      // ...and Alice is flagged as the dataset's creator.
-      creator: aliceIdentity,
-    },
-  );
+  const bobId = address as IdentityId; 
+  const appId = apiCreds.clientId as AppId;
+  const dataset = await parcel.uploadDocument(data, {
+    details: documentDetails,
+    owner: bobId,
+    toApp: appId,
+  }).finished;
+
+  
+  console.log(`Created document ${dataset.id} with owner ${dataset.owner}`);
+
   var t1 = performance.performance.now()
   console.log("Upload dataset from bob take" + (t1 - t0) + " milliseconds.")
   fs.appendFile(uploadLog, (t1 - t0) + "\n", function (err) {
@@ -80,10 +97,10 @@ async function uploads(address, parsephase) {
 
   
   console.log(
-    `Created dataset with address ${dataset.address} and uploaded to ${dataset.metadata.dataUrl}\n`,
+    `Created dataset with address ${dataset.id}\n`,
   );
 
-  return dataset.address.hex
+  return dataset.id
 }
 
 /**
