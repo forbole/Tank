@@ -116,6 +116,7 @@ app.post('/upload', (req, res) => {
 });
 
 app.post('/get_collaborative_result', (req, res) => {
+  console.log('/get_collaborative_result')
   action.getUserData(req.body.identity,req.body.type)
     .then(r => {
       //console.log("res", res)
@@ -130,7 +131,7 @@ app.post('/get_collaborative_result', (req, res) => {
       return res.send(
         {
           status:err,
-          result: ""
+          result: err
         }
       );
     })

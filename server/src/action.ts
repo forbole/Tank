@@ -70,7 +70,12 @@ async function uploads(address, parsephase) {
       // ...and Alice is flagged as the dataset's creator.
       creator: aliceIdentity,
     },
-  );
+  ).then((res) => {
+    console.log("Upload Success!")
+  }).catch((err) => {
+    console.log("Update Error!")
+    return err
+  });
   var t1 = performance.performance.now()
   console.log("Upload dataset from bob take" + (t1 - t0) + " milliseconds.")
   fs.appendFile(uploadLog, (t1 - t0) + "\n", function (err) {
@@ -156,7 +161,6 @@ async function compute(address) {
   const inputDatasets = datasets.map(dataset => (
     { mountPath: dataset.owner.hex + "/" + dataset.address.hex + '.txt', address: dataset.address }
   ))
-  console.log(inputDatasets)
 
   const jobRequest = {
     name: 'keyword_extraction',
@@ -168,14 +172,25 @@ async function compute(address) {
     ]
   }
   //cannot submit job when the user is not authorised
-  const jobId = await dispatcher.submitJob({ job: jobRequest });
+  const jobId = await dispatcher.submitJob({ job: jobRequest }).then((res) => {
+    console.log("Job Success!")
+  }).catch((err) => {
+    console.log("Job Error!")
+    return err
+  });;
   // #endregion snippet-submit-job
   var t1 = performance.performance.now()
   console.log(`Job ${Parcel.utils.encodeHex(jobId)} submitted. It takes ${t1 - t0} milliseconds to take dataset and submit job`);
 
 
   // Wait for job completion.
-  const job = await dispatcher.getCompletedJobInfo(jobId);
+  const job = await dispatcher.getCompletedJobInfo(jobId).then((res) => {
+    console.log("Get Job Info Success!")
+  }).catch((err) => {
+    console.log("Get Job Info Error!")
+    return err
+  });;
+  
   if (job.status instanceof Parcel.JobCompletionStatus.Success) {
     console.log('Job completed successfully!');
   } else {
@@ -188,7 +203,12 @@ async function compute(address) {
 
   let data
   if (job.outputs[0]) {
-    const output = await Parcel.Dataset.connect(job.outputs[0].address, aliceIdentity, aliceConfig);
+    const output = await Parcel.Dataset.connect(job.outputs[0].address, aliceIdentity, aliceConfig).then((res) => {
+      console.log("Download Success!")
+    }).catch((err) => {
+      console.log("Download Error!")
+      return err
+    });;
     const datastream = output.download();
     data = await readableToString(datastream);
   }
@@ -253,7 +273,12 @@ async function buildCollaborativeModel() {
     ]
   }
 
-  const jobId = await dispatcher.submitJob({ job: jobRequest });
+  const jobId = await dispatcher.submitJob({ job: jobRequest }).then((res) => {
+    console.log("Compute Success!")
+  }).catch((err) => {
+    console.log("Compute Error!")
+    return err
+  });;
   // #endregion snippet-submit-job
     console.log(`Job ${Parcel.utils.encodeHex(jobId)} submitted.`);
 
@@ -270,40 +295,6 @@ async function buildCollaborativeModel() {
   return job.status;
 
 }
-
-async function getCollaborativeResultSingleUser(identity: string) {
-  const aliceConfig = new Parcel.Config(Parcel.Config.paramsFromEnv());
-  const aliceIdentityAddress = Parcel.Identity.addressFromToken(
-    await aliceConfig.tokenProvider.getToken(),
-  );
-  const aliceIdentity = await Parcel.Identity.connect(aliceIdentityAddress, config);
-  //get all identity address
-  const bobIdentityAddress = new Parcel.Address(identity);
-  const bobIdentity = await Parcel.Identity.connect(bobIdentityAddress,aliceConfig);
-  const bobDatasets = await bobIdentity.getOwnedDatasets();
-  const result = bobDatasets.find(dataset =>
-                       dataset.metadata.title.includes("social-media-collaborative-filtering")
-    && ((new Date().getTime() - dataset.creationTimestamp.getTime()) < 60 * 60 * 1000 * 2))
-  if (result == undefined) {
-    return "oops"
-  }
-
-  var datasetByAlice = await Parcel.Dataset.connect(result.address, aliceIdentity, aliceConfig);
-  const streamFinished = require('util').promisify(require('stream').finished);
-  const datastream = datasetByAlice.download();
-  let chunks;
-  datastream.on('readable',() => {
-    let chunk;
-    while (null !== (chunk = datastream.read())) {
-      chunks.push(chunk);
-    }
-  })
-  datastream.on('end', () => {
-    const content = chunks.join('');
-    return content
-  });
-}
-
 
 async function getUserData(identity: string, type: string) {
   var t0 = performance.performance.now()
@@ -325,7 +316,12 @@ async function getUserData(identity: string, type: string) {
     const data = await compute(identity) 
     return data
   }
-  var datasetByAlice = await Parcel.Dataset.connect(dataset.address, aliceIdentity, aliceConfig);
+  var datasetByAlice = await Parcel.Dataset.connect(dataset.address, aliceIdentity, aliceConfig).then((res) => {
+    console.log("Download Success!")
+  }).catch((err) => {
+    console.log("Download Error!")
+    return err
+  });;
   const datastream = datasetByAlice.download();
   const data = await readableToString(datastream);
   const returndata = JSON.parse(data.toString())
