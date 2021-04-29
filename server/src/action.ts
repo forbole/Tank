@@ -316,12 +316,17 @@ async function getUserData(identity: string, type: string) {
     return data
   }
   var datasetByAlice = await Parcel.Dataset.connect(dataset.address, aliceIdentity, aliceConfig).then((res) => {
+    console.log("Connect Success!")
+  }).catch((err) => {
+    console.log("Connect Error!"+ err.toString())
+    return err
+  });;
+  const datastream = datasetByAlice.download().then((res) => {
     console.log("Download Success!")
   }).catch((err) => {
     console.log("Download Error!"+ err.toString())
     return err
-  });;
-  const datastream = datasetByAlice.download();
+  });;;
   const data = await readableToString(datastream);
   const returndata = JSON.parse(data.toString())
   var t1 = performance.performance.now()
