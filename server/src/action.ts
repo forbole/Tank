@@ -310,8 +310,8 @@ async function getUserData(identity: string, type: string) {
   const bobDatasets = await bobIdentity.getOwnedDatasets();
   const dataset = bobDatasets.find(dataset =>
     dataset.metadata.title.includes(type))
-
   if (dataset == undefined) {
+    console.log("Creating /computing new dataset recommendation for user")
     const data = await compute(identity) 
     return data
   }
