@@ -175,7 +175,7 @@ async function compute(address) {
   const jobId = await dispatcher.submitJob({ job: jobRequest }).then((res) => {
     console.log("Job Success!")
   }).catch((err) => {
-    console.log("Job Error! "+err)
+    console.log("Job Error! "+ err.toString())
     return err
   });;
   // #endregion snippet-submit-job
@@ -187,7 +187,7 @@ async function compute(address) {
   const job = await dispatcher.getCompletedJobInfo(jobId).then((res) => {
     console.log("Get Job Info Success!")
   }).catch((err) => {
-    console.log("Get Job Info Error!" +err)
+    console.log("Get Job Info Error!"+ err.toString())
     return err
   });;
   
@@ -206,7 +206,7 @@ async function compute(address) {
     const output = await Parcel.Dataset.connect(job.outputs[0].address, aliceIdentity, aliceConfig).then((res) => {
       console.log("Download Success!")
     }).catch((err) => {
-      console.log("Download Error!"+err)
+      console.log("Download Error!"+ err.toString())
       return err
     });;
     const datastream = output.download();
@@ -276,7 +276,7 @@ async function buildCollaborativeModel() {
   const jobId = await dispatcher.submitJob({ job: jobRequest }).then((res) => {
     console.log("Compute Success!")
   }).catch((err) => {
-    console.log("Compute Error!"+err)
+    console.log("Compute Error!"+ err.toString())
     return err
   });;
   // #endregion snippet-submit-job
@@ -318,7 +318,7 @@ async function getUserData(identity: string, type: string) {
   var datasetByAlice = await Parcel.Dataset.connect(dataset.address, aliceIdentity, aliceConfig).then((res) => {
     console.log("Download Success!")
   }).catch((err) => {
-    console.log("Download Error!"+err)
+    console.log("Download Error!"+ err.toString())
     return err
   });;
   const datastream = datasetByAlice.download();
