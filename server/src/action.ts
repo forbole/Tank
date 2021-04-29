@@ -10,7 +10,7 @@ const computeLog = './log/compute.csv'
 //https://steward.oasiscloud.io/apps/c9d5fe98-b4d7-4b46-850f-b7ceed7e6bed/join
 const apiCreds = {
   // Client ID. Replace this with your service client ID, e.g. "C92EAFfH67w4bGkVMjihvkQ"
-  clientId: process.env.OASIS_CLIENT_ID!,
+  clientId: "CH3NZkNNBLyU7b8ERaEWYuX",
   // Client key
   privateKey:{
     kty: "EC",
@@ -63,12 +63,6 @@ async function uploads(address, parsephase) {
   //need to get grant from steward app first
  /*  const bobIdentityAddress = new Parcel.Address(address); */
   //const bobIdentityAddress = new Parcel.Address("0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1");
-
-  const datasetMetadata = {
-    title: "Desmos Posts",
-    metadataUrl: 'http://s3-us-west-2.amazonaws.com/my_first_metadata.json',
-  }
-
   const data = JsonToArray(parsephase)
   const documentDetails = { title: 'Desmos Posts', tags: ['JSON'] };
 
