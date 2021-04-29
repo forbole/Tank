@@ -11,3 +11,5 @@ recommander/loadMind/MINDsmall_dev/behaviors.tsv
 recommander/loadMind/MINDsmall_dev/entity_embedding.vec
 recommander/loadMind/MINDsmall_dev/news.tsv
 recommander/loadMind/MINDsmall_dev/relation_embedding.vec
+recommander/grpc
+MINDsmall_train_complete.pickle
