@@ -18,7 +18,7 @@ export const sendPost = ()=>{
     
     const firstAccount = wallet.getAccounts();
 
-    const rpcEndpoint = "http://localhost:26657/";
+    const rpcEndpoint = "http://139.162.108.149:26657/";
     const client = SigningStargateClient.connectWithSigner(
     rpcEndpoint,
     wallet

@@ -23,8 +23,6 @@ export default class Post extends Component {
                 <div className='flex-container'>{reactions}</div>
                 
                 <button className="Button" onClick={()=>this.props.likeButton(this.props.post)} >Like</button>
-                <button className="Button" onClick={()=>this.props.commentButton(this.props.post)} >Comment</button>
-
             </div>
         )
     }

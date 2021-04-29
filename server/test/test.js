@@ -1,91 +1,43 @@
 /**
  * MUST include "type":"module" in package.json
  */
+ import fetch from 'cross-fetch';
 
-import protoLoader from '@grpc/proto-loader';
-import grpc from 'grpc';
-import async from 'async';
-import grpc_promise from 'grpc-promise' ;;
-
-var PROTO_PATH = "/Users/apple/Forbole/FYP/server/src/recommend.proto"
-//define server to be connected
-
-var packageDefinition = protoLoader.loadSync(
-    PROTO_PATH,
-    {keepCase: true,
-     longs: String,
-     enums: String,
-     defaults: true,
-     oneofs: true
-    });
-var routeguide = grpc.loadPackageDefinition(packageDefinition).routeguide;
-var client = new routeguide.RouteGuide('localhost:50051',
-                                       grpc.credentials.createInsecure());
-
-function TestGetRecommended(callback) {
-    var parsephase = {
-        parsePhase: "This is a test!",
-        identity: "0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1"
-    }
-
-
-    var returnStr=""
-    function getRecommendCallback(err,words){
-        if (err){
-            console.log(err)
-            callback(err)
-            return
-        }
-        console.log("from client!")
-        console.log(words.word)
-    }
-
-    
-    
-}
-
-function TestSaveData(callback) {
-
-
-    var returnStr=""
-    function TestSaveDataCallback(err,words){
-        if (err){
-            callback(error)
-            return
-        }
-        console.log(words.msg)
-    }
-
-    client.SaveData(parsephase,getRecommendCallback)
-    call.end();
-}
 
 function main() {
-    grpc_promise.promisifyAll(client);
 
-    var userInfo = {
-        identity: "0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1"
-    }
+    const UserIdentity= "0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1"
 
-    var parsephase = {
-        parsePhase: "Blockchain Blockchain",
-        identity: "0xddbe5ae7e8bf58f24f8253fe9d3473392c61a8f1"
-    }
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify({
+            identity:UserIdentity,
+            type:"Result of job keyword_extraction"
+        }),
+    };
 
-    client.SaveData()
-    .sendMessage(parsephase)
-    .then(res=>{
-        console.log(res)
-    }).catch(
-        err =>console.log(err)
-    )
+    
+fetch('http://localhost:50051/get_collaborative_result', requestOptions)
+        .then(response => response.json())
+        .then(res=>{
+            console.log(res)
+            //append the states
+            const newPosts=res["result"]["result"]
+            const d=newPosts.map((res)=>{
+                return {
+                    ...res,
+                    key:res.post_id
+                }
+            })
+            this.setState({
+                posts:[...this.state.posts,...d]
+            })
+        })
+        .catch(err=>{console.log("oops",err)})
 
-    client.GetRecommended()
-    .sendMessage(userInfo)
-    .then(res=>{
-        console.log("res")
-        console.log(res)})
-    .catch(err=>console.log(err));
-  }
+}
   
 main()

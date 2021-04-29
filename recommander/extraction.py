@@ -12,18 +12,6 @@ input_dir = sys.argv[1]
 output_path = sys.argv[2]
 config_path = "config.json"
 
-class map_to_lower:
-    def __init__(self):
-        self.matrix_lookup={}
-    def map_to_lower(self,load):
-        #append to max length
-        if self.matrix_lookup.get(load)==None:
-            self.matrix_lookup[load]=len(self.matrix_lookup.keys())
-        return self.matrix_lookup[load]
-
-user_embed_lookup=map_to_lower()
-print(user_embed_lookup.map_to_lower("0x1231231"))
-
 def walk_through_files(path, file_extension='.txt',only_one=""):
     post={}
     try:
@@ -52,16 +40,25 @@ def walk_through_files(path, file_extension='.txt',only_one=""):
             json.dump(outputJson, outfile)
         exit()
 
+    except Exception as e:
+        dump_exit({"status":e})
+
     return post
 
+def dump_exit(dictionary):
+    outputJson={"status":"Whats"}
+    with open(output_path, 'w+') as outfile:
+        json.dump(dictionary, outfile)
+    exit()
 #/parcel/data/in/<username>/<userhistory>.json
 
 print("walking...")
 user_posts=walk_through_files(input_dir)
+print(user_posts)
 sequence_to_classify=[post['payload']['message']['message']  for user in user_posts.keys() for post in user_posts[user] ]
 outputJson={"status":"Great"}
-print(set(sequence_to_classify))
-
+print("Walk successfully!")
+print(sequence_to_classify)
 with open(config_path) as json_file:
     config = json.load(json_file)
 r = Rake()
@@ -118,7 +115,7 @@ NUM_POSTS=config['general']['num_of_posts']
 CHAIN=config['general']['chain']
 JACCARD=config['keywords']['jaccard_simularity_thereshold']
 
-# Get list of candidate posts from localhost:1415/posts (chain)
+# Get list of candidate posts from 139.162.108.149:1415/posts (chain)
 response = requests.get(CHAIN)
 if response.status_code !=200:
     print("oops")
@@ -128,7 +125,7 @@ if response.status_code !=200:
         exit()
 
 post_candidates=response.json()['result']
-
+print("Fetch posts successfully")
 #cold start
 if not sequence_to_classify:
     with open(output_path, 'w+') as outfile:
@@ -149,7 +146,7 @@ word_keys=list(words_degree.keys())
 word_value=list(words_degree.values())
 max_edges=max(word_value)
 keywords=[ i for i in words_degree if words_degree[i] in range(max_edges-DEGREE_DEPTH,max_edges+1)]
-
+print("Fininsh keyword extraction")
 # Context based filtering
 def inlist(post_keyphases,keywords):
     for post_keyphase in post_keyphases:
@@ -191,6 +188,7 @@ for post in post_candidates:
         continue
     recommendation_json.append(post)
 
+print("Fininsh recommendation, writting...")
 with open(output_path, 'w+') as outfile:
     outputJson={
         "status":200,
