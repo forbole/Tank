@@ -1,5 +1,4 @@
 import express from "express";
-import _ from './env';
 
 import * as action from './action'
 var app = express()
